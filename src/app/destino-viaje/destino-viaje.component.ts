@@ -7,7 +7,7 @@ import { DestinoViaje } from '../modelos/detino-viaje.model';
   styleUrls: ['./destino-viaje.component.css']
 })
 export class DestinoViajeComponent implements OnInit {
-  @Input() destino: DestinoViaje;
+  @Input() destinos: DestinoViaje;
   @HostBinding('attr.class') cssClass = 'col-md-4';
   constructor() {
     // this.nombre = 'algo';
