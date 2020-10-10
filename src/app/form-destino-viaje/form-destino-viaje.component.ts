@@ -1,7 +1,9 @@
-import { invalid } from '@angular/compiler/src/render3/view/util';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { fromEvent } from 'rxjs';
 import { DestinoViaje } from '../modelos/detino-viaje.model';
+import { map, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { ajax } from 'rxjs/ajax';
 
 @Component({
   selector: 'app-form-destino-viaje',
@@ -13,6 +15,7 @@ export class FormDestinoViajeComponent implements OnInit {
   // tslint:disable-next-line: no-output-on-prefix
   @Output() onItemAdded: EventEmitter<DestinoViaje>;
   minLongitud = 3;
+  searchResults: string[] = [];
   constructor(private fb: FormBuilder) {
     this.onItemAdded = new EventEmitter();
     this.fg = this.fb.group({
@@ -28,6 +31,15 @@ export class FormDestinoViajeComponent implements OnInit {
     });
   }
   ngOnInit() {
+    const elemeNombre = <HTMLInputElement>document.getElementById('nombre');
+    fromEvent(elemeNombre, 'input')
+      .pipe(
+        map((e: KeyboardEvent) => (e.target as HTMLInputElement).value),
+        filter(text => text.length > 2),
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap(() => ajax('/assets/datos.json'))
+      ).subscribe((res) => this.searchResults = res.response);
   }
 
   guardar(nombre: string, url: string): boolean {

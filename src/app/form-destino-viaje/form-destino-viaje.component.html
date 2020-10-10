@@ -6,9 +6,12 @@
     <label for="nombre">Nombre</label>
     <input type="text" class="form-control" id="nombre" placeholder="Ingresar nombre..."
       [formControl]="fg.controls['nombre']">
-      <div *ngIf="fg.controls['nombre'].hasError('required')">Nombre requiredo</div>
-      <div *ngIf="fg.controls['nombre'].hasError('invalidNombre')">Nombre invalido</div>
-      <div *ngIf="fg.controls['nombre'].hasError('minLong')">Nombre longitud minima: {{minLongitud}} caracteres</div>
+    <u>
+      <li *ngFor="let r of searchResults">{{r}}</li>
+    </u>
+    <div *ngIf="fg.controls['nombre'].hasError('required')">Nombre requiredo</div>
+    <div *ngIf="fg.controls['nombre'].hasError('invalidNombre')">Nombre invalido</div>
+    <div *ngIf="fg.controls['nombre'].hasError('minLong')">Nombre longitud minima: {{minLongitud}} caracteres</div>
 
   </div>
   <div class="form-group">
