@@ -27,11 +27,9 @@ export class ListaDestinosComponent implements OnInit {
   }
   agregado(destino: DestinoViaje) {
     this.destinosApiClient.add(destino);
-    this.onItemAdded.emit(destino);
-    this.store.dispatch(new NuevoDestinoAction(destino));
+    // this.onItemAdded.emit(destino);
   }
   elegido(destino: DestinoViaje) {
     this.destinosApiClient.elegir(destino);
-    this.store.dispatch(new ElegidoFavoritoAction(destino));
   }
 }
